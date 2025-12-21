@@ -32,11 +32,14 @@ class SimpleRAG:
 
         # Encode the PDF document into a vector store using OpenAI embeddings
         start_time = time.time()
+        
+        # 生成一个 向量数据库
         self.vector_store = encode_pdf(path, chunk_size=chunk_size, chunk_overlap=chunk_overlap)
         self.time_records = {'Chunking': time.time() - start_time}
         print(f"Chunking Time: {self.time_records['Chunking']:.2f} seconds")
 
         # Create a retriever from the vector store
+        # 把向量数据库适配成一个retriever
         self.chunks_query_retriever = self.vector_store.as_retriever(search_kwargs={"k": n_retrieved})
 
     def run(self, query):

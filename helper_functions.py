@@ -61,15 +61,18 @@ def encode_pdf(path, chunk_size=1000, chunk_overlap=200):
     # Load PDF documents
     loader = PyPDFLoader(path)
     documents = loader.load()
+    # print('documents',documents)
 
     # Split documents into chunks
     text_splitter = RecursiveCharacterTextSplitter(
         chunk_size=chunk_size, chunk_overlap=chunk_overlap, length_function=len
     )
     texts = text_splitter.split_documents(documents)
-    print('texts',texts[0])
+    print('texts_0',texts[0])
+    print('texts_1',texts[1])
+    print("="*20)
     cleaned_texts = replace_t_with_space(texts)
-    print('cleaned_texts',cleaned_texts[0])
+    print('cleaned_texts_0',cleaned_texts[0])
     # Create embeddings and vector store
     embeddings = OpenAIEmbeddings()
     vectorstore = FAISS.from_documents(cleaned_texts, embeddings)
@@ -141,12 +144,13 @@ def retrieve_context_per_question(question, chunks_query_retriever):
     """
 
     # Retrieve relevant documents for the given question
-    docs = chunks_query_retriever.get_relevant_documents(question)
+    docs = chunks_query_retriever.invoke(question)
+    print('docs',docs)
 
     # Concatenate document content
     # context = " ".join(doc.page_content for doc in docs)
     context = [doc.page_content for doc in docs]
-
+    print('context',context)  
     return context
 
 
