@@ -76,7 +76,7 @@ def validate_args(args):
 # Function to parse command line arguments
 def parse_args():
     parser = argparse.ArgumentParser(description="Encode a PDF document and test a simple RAG.")
-    parser.add_argument("--path", type=str, default="./data/Understanding_Climate_Change.pdf",
+    parser.add_argument("--path", type=str, default="../data/Understanding_Climate_Change.pdf",
                         help="Path to the PDF file to encode.")
     parser.add_argument("--chunk_size", type=int, default=1000,
                         help="Size of each text chunk (default: 1000).")
